@@ -1,29 +1,44 @@
 "use client"
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
 
-export default function TimeZoneAware() {
-    const [time, setTime] = useState("")
+interface TypewriterProps {
+    texts: string[]
+}
+
+export default function Typewriter({ texts }: TypewriterProps) {
+    const [displayText, setDisplayText] = useState("")
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [isDeleting, setIsDeleting] = useState(false)
 
     useEffect(() => {
-        const now = new Date()
-        setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))
-    }, [])
+        const currentText = texts[currentIndex]
+        const timeout = setTimeout(
+            () => {
+                if (!isDeleting) {
+                    if (displayText.length < currentText.length) {
+                        setDisplayText(currentText.slice(0, displayText.length + 1))
+                    } else {
+                        setTimeout(() => setIsDeleting(true), 2000)
+                    }
+                } else {
+                    if (displayText.length > 0) {
+                        setDisplayText(currentText.slice(0, displayText.length - 1))
+                    } else {
+                        setIsDeleting(false)
+                        setCurrentIndex((currentIndex + 1) % texts.length)
+                    }
+                }
+            },
+            isDeleting ? 50 : 100
+        )
+
+        return () => clearTimeout(timeout)
+    }, [displayText, isDeleting, currentIndex, texts])
 
     return (
-        <motion.div
-            className="card text-center space-y-4"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-        >
-            <div className="inline-block px-4 py-2 rounded-full bg-primary/20 border border-primary/40">
-                <p className="text-2xl font-semibold text-primary">{time}</p>
-            </div>
-
-            <p className="text-lg text-foreground leading-relaxed">Right now, time is gently moving where you are.</p>
-            <p className="opacity-80 text-sm">And somehow, my heart is right there with you.</p>
-        </motion.div>
+        <h1 className="text-4xl md:text-6xl font-bold text-gradient min-h-[80px] flex items-center justify-center">
+            {displayText}
+            <span className="animate-pulse">|</span>
+        </h1>
     )
 }
