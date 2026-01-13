@@ -39,7 +39,7 @@ export default function ReasonsList() {
             <div className="text-center space-y-2">
                 <h2 className="text-3xl font-bold text-gradient">My Luna</h2>
                 <p className="opacity-80 italic max-w-lg mx-auto leading-relaxed">
-                    "I can't say exactly why I love you, because love just <i>is</i>. But I can tell you exactly why I fell for you..."
+                    &ldquo;I can&apos;t say exactly why I love you, because love just <i>is</i>. But I can tell you exactly why I fell for you...&rdquo;
                 </p>
             </div>
 
@@ -49,8 +49,8 @@ export default function ReasonsList() {
                         key={i}
                         onClick={() => setActiveIndex(activeIndex === i ? null : i)}
                         className={`relative p-4 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 border ${activeIndex === i
-                                ? "bg-white/10 border-primary/50 shadow-[0_0_30px_rgba(236,72,153,0.3)] scale-105 z-10"
-                                : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
+                            ? "bg-white/10 border-primary/50 shadow-[0_0_30px_rgba(236,72,153,0.3)] scale-105 z-10"
+                            : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
                             }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
